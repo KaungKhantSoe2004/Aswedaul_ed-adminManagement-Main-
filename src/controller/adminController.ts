@@ -8,7 +8,6 @@ import { validateSchedule } from '../assets/validation/validation';
 import { getUserName } from './teacherController';
 dotenv.config();
 const backend_domain_name = process.env.BACKEND_DOMAIN_NAME;
-console.log(backend_domain_name);
 export async function dashboard(req: Request, res: Response){
 
 }
@@ -113,7 +112,6 @@ export async function makeSalaries(req: Request, res: Response) {
        }
     });
     const employees = response.data.data;
-    console.log(employees, 'is employees bro')
     const now = new Date();
     const pay_month = now.toLocaleString('en-US', { month: 'long' });
     const currentYear = now.getFullYear();
@@ -131,7 +129,6 @@ export async function makeSalaries(req: Request, res: Response) {
         data: existingRows
       });
     }
-    console.log(pay_month, 'is pay_month')
     for (const each of employees) {
       const insertQuery = `
         INSERT INTO salary_payments (user_id, userType, monthly_salary, pay_month, username) 
@@ -230,7 +227,6 @@ export const updateNotice = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { message } = req.body;
-     console.log(message, 'is message')
     if ( !message) {
       return res.status(400).json({
         message: "All fields are required"
@@ -320,22 +316,21 @@ export const getEachGrade =async (req: Request, res:Response)=> {
   try{
      const {grade} = req.params;
      const token = req.cookies?.aswedaul_ed_jwt;
-     console.log(backend_domain_name, 'is backend domain name');
+
      const usersResponse  = await axios.get(`${backend_domain_name}api/user/getUsersWithGrade/${grade}`,  {
     headers: {
        Cookie: `aswedaul_ed_jwt=${token}`
     }
      });
-     console.log(usersResponse, 'is usersResponse')
+
      const usersData  :User[] = usersResponse?.data.data
-     console.log(usersResponse, 'is usersResponse')
+     
      const teachers : User[] = [];
      const admins : User[] = [];
      const students : User[] = [];
      const managers : User[] = [];
      const upcomingExamsQuery = `SELECT * FROM exams WHERE status != 'completed'`;
      const [upcomingRows] = await db.query(upcomingExamsQuery);
-     console.log(upcomingRows);
 
      usersData.forEach(user => {
        switch (user.role) {
@@ -357,7 +352,7 @@ export const getEachGrade =async (req: Request, res:Response)=> {
      const subjectQuery = `SELECT * FROM subjects WHERE grade_id = ?`;
      const values  = [grade]  ;
      const [subjectRows] = await db.query(subjectQuery, values);
-     console.log(subjectRows, 'is subjects Rows bro dude')
+   
      const data = {
        "subjects": subjectRows,
        "teachers": teachers,
@@ -439,7 +434,7 @@ export const createSubject = async (req: Request, res: Response) => {
 
 export const updateSubject = async (req: Request, res: Response) => {
   try {
-    console.log("in updating subject")
+
     const { id : subjectId, teacher_id, subject_name, grade_id, schedule } = req.body;
 
     if (!subjectId) {
@@ -585,7 +580,7 @@ export const createExam = async (req: Request, res: Response) => {
 
 export const getExamsByGrade = async(req: Request, res: Response)=> {
   try{
-    console.log("in exam nby grade")
+
     const {id: gradeId} = req.params;
      const query = `SELECT * FROM exams WHERE grade = ?`;
      const [rows] = await db.query(query, [gradeId]);
@@ -782,7 +777,6 @@ export const deleteExam = async(req:Request, res:Response)=> {
 export const addStudyMaterial = async (req: Request, res: Response) => {
   try {
     const { subjectId, type, title, url, description } = req.body;
-    console.log(req.body);
     if (!subjectId || !type || !title || !url) {
       return res.status(400).json({
         message: "subjectId, type, title, and url are required",

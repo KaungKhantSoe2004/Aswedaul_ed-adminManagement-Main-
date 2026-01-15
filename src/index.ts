@@ -25,7 +25,6 @@ app.use(
     credentials: true,
   })
 );
-console.log("in index. first")
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
@@ -33,7 +32,6 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.status(200).send("<h1>OK Desu</h1>");
 });
-console.log("in index.ts")
 app.use("/api/admin", authMiddleware, AdminRouter);
 app.use("/api/student", authMiddleware, StudentRouter);
 app.use("/api/teacher", authMiddleware, TeacherRouter);

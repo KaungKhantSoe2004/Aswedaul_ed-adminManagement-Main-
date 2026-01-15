@@ -18,8 +18,6 @@ try{
         }
     });
     const notice =await db.query(noticeBoardQuery, [gradeId]);
-    console.log(notice, 'is notice dudes');
-    console.log(response.data, 'is response data');
     res.status(200).json({notice: notice[0], dashboard: response.data})
 }catch(err){
     console.log("enter cach")

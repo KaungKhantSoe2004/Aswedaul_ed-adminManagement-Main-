@@ -9,7 +9,6 @@ export const getDashboard = async(req: Request, res: Response)=> {
     try {
      const {grade_id} = req.params;   
      const token = req.cookies?.aswedaul_ed_jwt;
-     console.log(grade_id,'is grade_id');
      const lastExamQuery = `SELECT * FROM exams WHERE grade = ? AND exam_start_date >= CURDATE() ORDER BY exam_start_date ASC`;
      const [upcomingExamRows] = await db.execute<RowDataPacket[]>(lastExamQuery, [grade_id]); 
      const upcomingExams = upcomingExamRows;
@@ -53,7 +52,6 @@ export const getMarksByStudent = async(req: Request, res:Response)=> {
                 })
           )
       }
-      console.log(examRows, 'is examRows')
       res.status(200).json({
         message: "Success",
         data: examRows
