@@ -5,7 +5,8 @@
     "seedExam": "tsx src/assets/migrations/seedExam.ts",
     "seedSalary": "tsx src/assets/migrations/seedSalary.ts",
     "seedSubject": "tsx src/assets/migrations/seedSubject.ts",
-    "testSql": "tsx src/sqlCall.ts"
+    "testSql": "tsx src/sqlCall.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.10",
